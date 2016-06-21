@@ -22,36 +22,24 @@ class Realm13 extends Component {
     super(props);
   }
   componentWillMount(){
-   // RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm");
-   // RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.lock");
-   // RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.management");
-    // RNFS.exists(RNFS.DocumentDirectoryPath+"/default.realm.lock")
-    //   .then(()=>{
-        RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.lock");
-      // });
-    // RNFS.exists(RNFS.DocumentDirectoryPath+"/default.realm.management")
-    //   .then(()=>{
-        RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.management");
-      // });
-    // RNFS.exists(RNFS.DocumentDirectoryPath+"/default.realm")
-    //   .then(()=>{
-        RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm");
-        RNFS.moveFile(RNFS.MainBundlePath+"/default.realm", RNFS.DocumentDirectoryPath+"/default.realm")
-        .then((success) => {
-          console.log('FILE WRITTEN!');
-           // console.log(realm.path, RNFS.DocumentDirectoryPath);
-           // return realm
-           realm = new Realm({
-            // path: 'newDefault.realm',
-            schema: [{name: 'Dog', properties: {name: 'string'}}]
-           });
-           this.setState({realm: realm});
-           return realm;
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-      // });
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.lock");
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.management");
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm");
+    RNFS.moveFile(RNFS.MainBundlePath+"/default.realm", RNFS.DocumentDirectoryPath+"/default.realm")
+    .then((success) => {
+      console.log('FILE WRITTEN!');
+       // console.log(realm.path, RNFS.DocumentDirectoryPath);
+       // return realm
+       realm = new Realm({
+        // path: 'newDefault.realm',
+        schema: [{name: 'Dog', properties: {name: 'string'}}]
+       });
+       this.setState({realm: realm});
+       return realm;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
     this.state = {realm: realm};
   }
   renderNewComponent(){
