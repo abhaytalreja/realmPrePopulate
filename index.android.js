@@ -12,22 +12,50 @@ import {
   View
 } from 'react-native';
 
+const Realm = require('realm');
+// require the module
+var RNFS = require('react-native-fs');
+
 class Realm13 extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+  componentWillMount(){
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.lock");
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm.management");
+    RNFS.unlink(RNFS.DocumentDirectoryPath+"/default.realm");
+    Realm.copyBundledRealmFiles();
   }
+  renderNewComponent(){
+    console.log(this.state.realm.path, RNFS.DocumentDirectoryPath);
+    return (
+      <Text style={styles.welcome}>
+        Count of Dogs in Realm: {this.state.realm.objects('Dog').length};
+      </Text>
+      );
+  }
+ render() {
+
+   // Realm.defaultPath = 'newDefault.realm';
+
+   let renderComponent = this.state.realm != undefined ? this.renderNewComponent() : null;
+
+   // let dogs = realmObj.objects('Dog');
+   // let dog = dogs.slice(0, 1)[0];
+   // console.log(dog);
+
+
+   // realmObj.write(() => {
+   //   realmObj.create('Dog', {name: 'Rex'});
+   // });
+
+   // realmObj.write(() => {
+   //  dog.name = "John Snow";
+   // });
+
+   return (
+     <View style={styles.container}>
+       {renderComponent}
+     </View>
+   );
+ }
 }
 
 const styles = StyleSheet.create({
